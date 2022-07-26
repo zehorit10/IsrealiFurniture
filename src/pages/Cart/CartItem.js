@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, Typography, IconButton, Stack } from "@mui/material";
+import { Grid, Typography, IconButton, Stack } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
