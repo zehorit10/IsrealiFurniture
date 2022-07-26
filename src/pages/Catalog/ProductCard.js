@@ -34,7 +34,10 @@ export default function ProductCard({ product }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => addToCart({ ...product, quantity: quantity })}>הוסף לסל</Button>
+        <Button size="small" onClick={() => {
+          setQuantity(1);
+          addToCart({ ...product, quantity: quantity })
+        }}>הוסף לסל</Button>
         <IconButton onClick={() => setQuantity(quantity + 1)}>
           <AddIcon fontSize='small' />
         </IconButton>

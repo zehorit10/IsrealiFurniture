@@ -1,7 +1,8 @@
 import React from "react";
 import { Grid, Typography, FormControl, RadioGroup, FormLabel, Radio, FormControlLabel, Divider } from "@mui/material";
+import { Box } from "@mui/system";
 
-const data = { image: "https://cdn.pixabay.com/photo/2022/06/20/07/32/dirt-road-7273240_960_720.jpg", quantity: 3, name: "מגורים לפי מגע", price: 100, sku: "123456789" }
+const data = { discount:10, description:"dgdsggfghghghghghgjghghgj", isAvailable:true, image: "https://cdn.pixabay.com/photo/2022/06/20/07/32/dirt-road-7273240_960_720.jpg", quantity: 3, name: "מגורים לפי מגע", price: 100, sku: "123456789" }
 
 
 function ProductDetails() {
@@ -12,17 +13,27 @@ function ProductDetails() {
             </Grid>
             <Grid item xs={8}>
                 <Typography align="left" variant="h4">{data.name} </Typography>
-                <Typography align="center" variant="body1">
+                <Typography align="left" variant="body1">
                     <br />
-                    אמנם “רהיט ישראלי” הוקמה בשנת 2020, אך אנו בעלי ידע וניסיון עבר בענף הריהוט כבר למעלה מ-20 שנים.
+                    <span>מספר מוצר: {data.sku}</span>
                     <br />
+                    <span>תאור: {data.description}</span>
                     <br />
-                    אנחנו מייצרים רהיטים מעץ מלא במחירים מיוחדים לפי כל מידה בנוסף מזרנים ומיטות מכל הסוגים ומקפידים על קידום ועכשווית מוצרינו.
+                    <span>מחיר: {data.price} ש"ח</span>
                     <br />
+                    <span>הנחה: {data.discount} </span>
                     <br />
-                    מטרתנו העיקרית לדאוג שאתם תקבלו מוצרים איכותיים במחירים שפויים!
+                    <span>זמין: {data.isAvailable} </span>
+                    <br />     
+                    <span>כמות: {data.quantity} </span>
+                    <br />     
                 </Typography>
             </Grid>
+            <Box>
+                <Typography align="center" variant="h4" >
+                    תגובות
+                </Typography>
+            </Box>
         </Grid>
     )
 }

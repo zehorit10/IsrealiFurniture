@@ -44,7 +44,7 @@ function Header() {
     const [value, setValue] = React.useState("/");
     const handleChange = (event, newValue) => {
         if (newValue === '/catalog') {
-            return;
+            return setValue(newValue);
         } else {
             setValue(newValue);
             navigate(newValue);

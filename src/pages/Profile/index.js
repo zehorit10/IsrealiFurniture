@@ -22,8 +22,8 @@ function Profile() {
     const [email, setEmail] = React.useState(data.email);
     const [phoneOpen, setPhoneOpen] = React.useState(false);
     const [phone, setPhone] = React.useState(data.phone);
-    const [streetOpen, setstreetOpen] = React.useState(false);
-    const [address, setAddress] = React.useState(data.address);
+    const [streetOpen, setStreetOpen] = React.useState(false);
+    const [street, setStreet] = React.useState(data.address.street);
 
 
     return (
@@ -34,8 +34,8 @@ function Profile() {
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Grid container spacing={4} alignItems="center">
-                    <Grid item xs={4}>
+                <Grid container alignItems="center">
+                    <Grid item xs={3}>
                         <Typography variant="caption">שם:</Typography>
                         <Typography variant="body1">
                             {name}
@@ -44,7 +44,7 @@ function Profile() {
                             </IconButton>
                         </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={9}>
                         <Collapse in={nameOpen} orientation="horizontal">
                             <TextField
                                 label="שם"
@@ -60,8 +60,8 @@ function Profile() {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Grid container spacing={4} alignItems="center">
-                    <Grid item xs={4}>
+                <Grid container alignItems="center">
+                    <Grid item xs={3}>
                         <Typography variant="caption">מייל:</Typography>
                         <Typography variant="body1">
                             {email}
@@ -70,7 +70,7 @@ function Profile() {
                             </IconButton>
                         </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={9}>
                         <Collapse in={emailOpen} orientation="horizontal">
                             <TextField
                                 label="מייל"
@@ -87,7 +87,7 @@ function Profile() {
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={4} alignItems="center">
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <Typography variant="caption">טלפון:</Typography>
                         <Typography variant="body1">
                             {phone}
@@ -96,7 +96,7 @@ function Profile() {
                             </IconButton>
                         </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={9}>
                         <Collapse in={phoneOpen} orientation="horizontal">
                             <TextField
                                 label="טלפון"
@@ -105,6 +105,33 @@ function Profile() {
                                 size="small"
                             />
                             <IconButton onClick={() => setPhoneOpen(false)}>
+                                <CheckIcon />
+                            </IconButton>
+                        </Collapse>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid item xs={12}>
+                <Grid container spacing={4} alignItems="center">
+                    <Grid item xs={3}>
+                        <Typography variant="h3">כתובת:</Typography>
+                        <Typography variant="caption">רחוב:</Typography>
+                        <Typography variant="body1">
+                            {street}
+                            <IconButton onClick={() => setStreetOpen(!streetOpen)}>
+                                <EditIcon />
+                            </IconButton>
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <Collapse in={streetOpen} orientation="horizontal">
+                            <TextField
+                                label="רחוב"
+                                value={street}
+                                onChange={(e) => setStreet(e.target.value)}
+                                size="small"
+                            />
+                            <IconButton onClick={() => setStreetOpen(false)}>
                                 <CheckIcon />
                             </IconButton>
                         </Collapse>
