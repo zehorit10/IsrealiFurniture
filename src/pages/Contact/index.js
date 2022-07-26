@@ -4,56 +4,42 @@ import { Grid, TextField, Typography, Stack, Text, Box, Button, Textarea } from 
 function Contact({ inputs, handleChange, loading }) {
     return (
         <Grid container spacing={2} sx={{ my: 3 }}>
-            <Grid item xs={2}>
-                <Stack direction="column" spacing={4}>
-                    <Box sx={{ height: 50 }}>  </Box>
-                    <Typography align={"end"}>
-                        שם
-                    </Typography>
-                    <Typography align={"end"}>
-                        מייל
-                    </Typography>
-                    <Typography align={"end"}>
-                        טלפון
-                    </Typography>
-                    <Typography align={"end"}>
-                        פרטי הודעה
-                    </Typography>
-                </Stack>
-            </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={3}></Grid>
+            <Grid item xs={6} >
                 <Typography align="center" variant="h4">צור קשר</Typography>
-                <Stack direction="column" spacing={1}>
-                    <TextField>
+                <Stack direction="column" alignItems={"center"} spacing={1}>
+                    <TextField
                         variant="outlined"
                         size="small"
                         label="שם:"
-                    </TextField>
-
-                    <TextField >
+                        fullWidth
+                    />
+                    <TextField
                         variant="outlined"
                         size="small"
-                        label="מייל"
+                        label="מייל:"
                         fullWidth
-                    </TextField>
-                    <TextField>
+                    />
+                    <TextField
                         variant="outlined"
                         size="small"
                         label="טלפון:"
                         fullWidth
-                    </TextField>
-                    <TextField>
+                    />
+                    <TextField
                         variant="outlined"
                         size="small"
                         label="פרטי הודעה:"
                         fullWidth
-                    </TextField>
+                        multiline rows={5}
+                    />
 
-                    <Button type="submit" variant="contained" >
+                    <Button type="submit" variant="contained" fullWidth >
                         שלח
                     </Button>
                 </Stack>
             </Grid>
+            <Grid item xs={3}></Grid>
         </Grid>
     )
 }
