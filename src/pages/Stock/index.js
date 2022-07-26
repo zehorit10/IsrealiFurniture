@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ProductStocCard from "./ProductStocCard";
 
 const data = [
@@ -22,8 +22,15 @@ const data = [
 
 function Stock() {
     return (
-        <Grid container spacing={4} sx={{ my: 12 }}>
-            {data.map((p, i) => <Grid key={i} item xs={3}><ProductStocCard product={p} /></Grid>)}
+        <Grid>
+            <Grid item xs={12}>
+                <Typography variant="h3">
+                    מלאי
+                </Typography>
+            </Grid>
+            <Grid container spacing={4} sx={{ my: 12 }}>
+                {data.map((p, i) => <Grid key={i} item xs={3}><ProductStocCard product={p} /></Grid>)}
+            </Grid>
         </Grid>
     )
 }
