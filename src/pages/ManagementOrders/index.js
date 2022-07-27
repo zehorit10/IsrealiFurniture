@@ -13,20 +13,19 @@ import {
 
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditOrder from "./EditOrder";
 
-import User from "./User";
 
-function Users() {
-
+function ManagementOrders() {
     const [open, setOpen] = React.useState(false);
 
     return (
         <>
-            <User open={open} setOpen={setOpen} />
+            <EditOrder open={open} setOpen={setOpen} />
             <Grid container spacing={4} columnSpacing={6} sx={{ py: 2 }}>
                 <Grid item xs={12}>
                     <Typography variant="h3">
-                        ניהול לקוחות
+                        ניהול הזמנות קיימות
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -34,14 +33,14 @@ function Users() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>שם </TableCell>
-                                    <TableCell>מייל</TableCell>
-                                    <TableCell>טלפון</TableCell>
-                                    <TableCell>כתובת</TableCell>
-                                    <TableCell>סוג משתמש</TableCell>
+                                    <TableCell>מספר הזמנה </TableCell>
+                                    <TableCell>תאריך</TableCell>
+                                    <TableCell>שם לקוח</TableCell>
+                                    <TableCell>סטטוס</TableCell>
+                                    <TableCell>פרטי הזמנה</TableCell>
                                     <TableCell>
                                         <Button variant="contained" onClick={() => setOpen(true)}>
-                                            הוספת משתמש
+                                            עריכת הזמנה
                                         </Button>
                                         <IconButton aria-label="delete">
                                             <DeleteIcon />
@@ -57,4 +56,4 @@ function Users() {
         </>
     )
 }
-export default Users;
+export default ManagementOrders;
