@@ -16,6 +16,7 @@ function Home() {
         setImgGalleryIndex(prv => prv - 1)
     }
 
+
     return (
         <Box>
             <Box sx={{ width: 1, height: "50vh", position: "relative" }}>
@@ -29,7 +30,7 @@ function Home() {
 
             <Divider sx={{ my: 2 }} />
             <Box>
-                <Typography variant="h4" align="center" >המותגים שלנו</Typography>
+                <Typography variant="h4" align="center" > בין לקוחותינו</Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={2}>
                         <img src={`./images/brand1.png`} style={{

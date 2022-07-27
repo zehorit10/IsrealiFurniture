@@ -3,10 +3,10 @@ import React from "react";
 import { Dialog, DialogTitle, DialogContent, IconButton, Box, Button,TextField, Stack } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-function User({ open, setOpen }) {
+function EditOrder({ open, setOpen }) {
     return (
         <Dialog open={open}>
-            <DialogTitle variant="contained" align="center">משתמש</DialogTitle>
+            <DialogTitle variant="contained" align="center">הזמנה</DialogTitle>
             <IconButton onClick={() => {
                 setOpen(false);
             }} sx={{ position: "absolute", top: 6, right: 6 }}>
@@ -14,28 +14,15 @@ function User({ open, setOpen }) {
             </IconButton>
             <DialogContent>
                 <Stack direction="column" spacing={2} component="form" sx={{p:4}}>
+                    
                     <TextField 
-                    label="שם"
+                    label="פרטי הזמנה"
                     variant="outlined"
                     fullWidth
                     />
+                    
                     <TextField 
-                    label="מייל"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <TextField 
-                    label="טלפון"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <TextField 
-                    label="סיסמא"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <TextField 
-                    label="סוג משתמש"
+                    label="סטטוס "
                     variant="outlined"
                     fullWidth
                     />
@@ -45,4 +32,4 @@ function User({ open, setOpen }) {
         </Dialog>
     )
 }
-export default User;
+export default EditOrder;

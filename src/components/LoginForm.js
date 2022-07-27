@@ -2,11 +2,12 @@ import React from "react";
 
 import { Dialog, DialogTitle, DialogContent, IconButton, Box, Button,TextField, Stack } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { Login } from "@mui/icons-material";
 
-function User({ open, setOpen }) {
+function LoginForm({ open, setOpen }) {
     return (
         <Dialog open={open}>
-            <DialogTitle variant="contained" align="center">משתמש</DialogTitle>
+            <DialogTitle variant="contained" align="center">התחברות</DialogTitle>
             <IconButton onClick={() => {
                 setOpen(false);
             }} sx={{ position: "absolute", top: 6, right: 6 }}>
@@ -15,17 +16,7 @@ function User({ open, setOpen }) {
             <DialogContent>
                 <Stack direction="column" spacing={2} component="form" sx={{p:4}}>
                     <TextField 
-                    label="שם"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <TextField 
                     label="מייל"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <TextField 
-                    label="טלפון"
                     variant="outlined"
                     fullWidth
                     />
@@ -34,15 +25,10 @@ function User({ open, setOpen }) {
                     variant="outlined"
                     fullWidth
                     />
-                    <TextField 
-                    label="סוג משתמש"
-                    variant="outlined"
-                    fullWidth
-                    />
-                    <Button variant="contained" color="primary" type="submit" fullWidth>שמירת משתמש</Button>
+                    <Button variant="contained" color="primary" type="submit" fullWidth>התחברות </Button>
                 </Stack>
             </DialogContent>
         </Dialog>
     )
 }
-export default User;
+export default LoginForm;

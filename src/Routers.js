@@ -12,7 +12,8 @@ import Orders from "./pages/Orders";
 import Users from "./pages/Users";
 import ProductDetails from "./pages/ProductDetails";
 import Contact from "./pages/Contact";
-import Stock from "./pages/Stock";
+import StackProduct from "./pages/StackProduct";
+import ManagementOrders from "./pages/ManagementOrders";
 
 function Routers() {
     return (
@@ -30,7 +31,8 @@ function Routers() {
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/productDetails" element={<ProductDetails />} />
-                <Route path="/stock" element={<Stock />} />
+                <Route path="/stackProduct" element={<StackProduct />} />
+                <Route path="/managementOrders" element={<ManagementOrders />} />
             </Route>
         </Routes>
     );
