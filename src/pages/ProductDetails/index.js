@@ -14,7 +14,6 @@ function ProductDetails() {
             <Grid item xs={8}>
                 <Typography align="left" variant="h4">{data.name} </Typography>
                 <Typography align="left" variant="body1">
-                    <br />
                     <span>מספר מוצר: {data.sku}</span>
                     <br />
                     <span>תאור: {data.description}</span>

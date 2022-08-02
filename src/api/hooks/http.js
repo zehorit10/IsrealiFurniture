@@ -2,21 +2,26 @@ import React from "react";
 import axios from "../axios";
 
 // react hook to post data from backend
-export default function usePost(endpoint, body = null) {
+export default function useHttp(endpoint, method = "POST") {
 
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
 
-    const [bodyS, setBodyS] = React.useState(body);
-    React.useEffect(() => {
-        setBodyS(body)
-    }, [body])
-
-    const getData = async () => {
+    const getData = async (body = {}) => {
         setLoading(true);
         try {
-            const res = await axios.post(endpoint, body);
+            let res;
+            switch(method){
+                case "POST":
+                    res = await axios.post(endpoint, body);
+                    break;
+                case "PUT":
+                    res = await axios.put(endpoint, body);
+                    break;
+                default:
+                    res = await axios.get(endpoint);
+            }
             setData(res);
             setLoading(false);
             setError(false);

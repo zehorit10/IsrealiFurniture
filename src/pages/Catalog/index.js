@@ -1,9 +1,7 @@
 import React from "react";
-
 import useGet from "../../api/hooks/get";
 import ProductCard from "./ProductCard";
 import { useParams } from "react-router-dom";
-
 import { Grid, Stack, LinearProgress, Box } from "@mui/material";
 
 function Catalog() {

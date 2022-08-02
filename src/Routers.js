@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./pages/Layout";
@@ -15,24 +16,29 @@ import Contact from "./pages/Contact";
 import StackProduct from "./pages/StackProduct";
 import ManagementOrders from "./pages/ManagementOrders";
 
+import Context from "./context";
+
 function Routers() {
+
+    const { isAuth } = React.useContext(Context);
+
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>
                 <Route index element={<Home/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/catalog" element={<Catalog />} />
-                <Route path="/catalog/:category" element={<Catalog />} />
-                <Route path="/newProduct" element={<NewProduct />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/profile" element={<Profile />} />
+                {isAuth && <Route path="/catalog/:category" element={<Catalog />} />}
+                {isAuth && <Route path="/newProduct" element={<NewProduct />} />}
+                {isAuth && <Route path="/cart" element={<Cart />} />}
+                {isAuth && <Route path="/profile" element={<Profile />} />}
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/users" element={<Users />} />
+                {isAuth && <Route path="/order" element={<Order />} />}
+                {isAuth && <Route path="/orders" element={<Orders />} />}
+                {isAuth && <Route path="/users" element={<Users />} />}
                 <Route path="/productDetails" element={<ProductDetails />} />
-                <Route path="/stackProduct" element={<StackProduct />} />
-                <Route path="/managementOrders" element={<ManagementOrders />} />
+                {isAuth && <Route path="/stackProduct" element={<StackProduct />} />}
+                {isAuth && <Route path="/managementOrders" element={<ManagementOrders />} />}
             </Route>
         </Routes>
     );

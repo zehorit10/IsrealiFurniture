@@ -22,7 +22,9 @@ async function ajax(endpoint, method = 'get', data = null) {
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,
             method,
-            //headers:{autorisation:TOKEN},
+            headers:{
+                "x-API-key": localStorage.getItem("token") || ""
+            },
             data,
             params: (method === 'GET') ? data : null
         })
@@ -33,3 +35,22 @@ async function ajax(endpoint, method = 'get', data = null) {
         throw err;
     }
 }
+// async function ajax(endpoint, method = 'get', data = null) {
+//     try {
+//         const res = await fetch(`${BASE_URL}${endpoint}`,{
+//             method,
+//             headers:{
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json'
+//             },
+//             body: (method !== 'GET') ? JSON.stringify(data) : null,
+//             params: (method === 'GET') ? data : null
+//         })
+//         let json = await res.json();
+//         return json
+//     } catch (err) {
+//         //console.log(err);
+//         console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: ${data}`)
+//         throw err;
+//     }
+// }
