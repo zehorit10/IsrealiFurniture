@@ -2,6 +2,9 @@ import React from "react";
 import Context from ".";
 
 function ContextProvider({ children }) {
+
+  const [isAuth, setIsAuth] = React.useState(false);
+  
   const [cart, setCart] = React.useState([]);
   const [cartTotal, setCartTotal] = React.useState(0);
   const [cartQuantity, setCartQuantity] = React.useState(0);
@@ -28,6 +31,8 @@ function ContextProvider({ children }) {
 
   return (
     <Context.Provider value={{
+      isAuth,
+      setIsAuth,
       cart,
       cartTotal,
       cartQuantity,

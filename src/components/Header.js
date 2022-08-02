@@ -15,16 +15,16 @@ const menuList = [
     { title: "אודות", path: "/about" },
     { title: "קטלוג", path: "/catalog" },
     { title: "צור קשר", path: "/contact" },
-    { title: "מוצר חדש", path: "/newProduct" },
-    { title: "סל קניות", path: "/cart" },
-    { title: "פרופיל", path: "/profile" },
-    { title: "השלמת הזמנה", path: "/order" },
-    { title: "הסטורית הזמנות", path: "/orders" },
-    { title: "ניהול משתמשים", path: "/users" },
+    { title: "מוצר חדש", path: "/newProduct", isAuth: true }, //manageer && worker
+    { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
+    { title: "פרופיל", path: "/profile", isAuth: true }, 
+    { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
+    { title: "הסטורית הזמנות", path: "/orders", isAuth: true }, //
+    { title: "ניהול משתמשים", path: "/users", isAuth: true }, //manageer edit && worker
     { title: "פרטי מוצר", path: "/productDetails" },
-    { title: "מלאי מחסן", path: "/stackProduct" },
-    { title: "ניהול הזמנות", path: "/managementOrders" },
-    
+    { title: "מלאי מחסן", path: "/stackProduct", isAuth: true }, //manageer && worker
+    { title: "ניהול הזמנות", path: "/managementOrders", isAuth: true }, //manageer && worker
+
 
 ]
 
@@ -33,7 +33,7 @@ const menuList = [
 function Header() {
 
     let navigate = useNavigate();
-    const { cartTotal } = React.useContext(Context);
+    const { cartTotal, isAuth } = React.useContext(Context);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -125,6 +125,7 @@ function Header() {
                                     />
                                 )
                             } else {
+                                if (item.isAuth && !isAuth) return null;
                                 return (
                                     <Tab key={index} label={item.title} value={item.path} />
                                 )

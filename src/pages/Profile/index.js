@@ -7,11 +7,6 @@ const data = {
     name: "אלכסנדר אברהם",
     email: "vdf@dfvfg",
     phone: "054-1234567",
-    address: {
-        street: "הגליל",
-        number: "12",
-        city: "ירושלים"
-    }
 }
 
 function Profile() {
@@ -22,8 +17,7 @@ function Profile() {
     const [email, setEmail] = React.useState(data.email);
     const [phoneOpen, setPhoneOpen] = React.useState(false);
     const [phone, setPhone] = React.useState(data.phone);
-    const [streetOpen, setStreetOpen] = React.useState(false);
-    const [street, setStreet] = React.useState(data.address.street);
+
 
 
     return (
@@ -105,33 +99,6 @@ function Profile() {
                                 size="small"
                             />
                             <IconButton onClick={() => setPhoneOpen(false)}>
-                                <CheckIcon />
-                            </IconButton>
-                        </Collapse>
-                    </Grid>
-                </Grid>
-            </Grid>
-            <Grid item xs={12}>
-                <Grid container spacing={4} alignItems="center">
-                    <Grid item xs={3}>
-                        <Typography variant="h3">כתובת:</Typography>
-                        <Typography variant="caption">רחוב:</Typography>
-                        <Typography variant="body1">
-                            {street}
-                            <IconButton onClick={() => setStreetOpen(!streetOpen)}>
-                                <EditIcon />
-                            </IconButton>
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={9}>
-                        <Collapse in={streetOpen} orientation="horizontal">
-                            <TextField
-                                label="רחוב"
-                                value={street}
-                                onChange={(e) => setStreet(e.target.value)}
-                                size="small"
-                            />
-                            <IconButton onClick={() => setStreetOpen(false)}>
                                 <CheckIcon />
                             </IconButton>
                         </Collapse>

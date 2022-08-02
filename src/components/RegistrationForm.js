@@ -1,79 +1,78 @@
-import React from 'react'
-import { Grid, Paper, Button, Typography, TextField, Dialog, DialogTitle, IconButton, DialogContent, Stack } from "@mui/material";
+import React from "react";
+
+import { Dialog, DialogTitle, DialogContent, IconButton, Box, Button, TextField, Stack } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
+import { Login } from "@mui/icons-material";
 
-function RegistrationForm({ open, setOpen }) {
+import Context from "../context";
+import useHttp from "../api/hooks/http";
 
-    const phoneRegExp = /^05\d([-]{0,1})\d{7}$/
-    // const passwordRegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-    const initialValues = {
-        name: '',
-        email: '',
-        phoneNumber: '',
-        password: '',
-        confirmPassword: ''
+function LoginForm({ open, setOpen }) {
+    const [name, setName] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [phone, setPhone] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const { setIsAuth } = React.useContext(Context);
+
+    const { getData, data, loading, error } = useHttp("login");
+    console.log(data);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        getData({ name, email, phone, password });
     }
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().min(1, "שם קצר מידי").required("חובה"),
-        email: Yup.string().email("הכנס מייל תקין").required("חובה"),
-        // phoneNumber: Yup.number().typeError("Enter valid Phone number").required("Required"),
-        phoneNumber: Yup.string().matches(phoneRegExp, "הכנס מספר תקין").required("חובה"),
-        password: Yup.string().min(8, "מינימום 8 תווים").required('חובה'),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password')], "סיסמא לא תואמת").required('חובה')
-    })
-    const onSubmit = (values, props) => {
 
-        alert(JSON.stringify(values), null, 2)
-        props.resetForm()
-    }
+    React.useEffect(() => {
+        if (data && !error && !loading) {
+            localStorage.setItem("token", data.token);
+            setIsAuth(true);
+            setOpen(false);
+        }
+    }, [data]);
+
     return (
         <Dialog open={open}>
-            <Grid >
-                <Paper elevation={0} >
-                    <DialogTitle variant="contained" align="center">הרשמה</DialogTitle>
-                    <IconButton onClick={() => {
-                        setOpen(false);
-                    }} sx={{ position: "absolute", top: 6, right: 6 }}>
-                        <CloseIcon />
-                    </IconButton>
-                    <DialogContent>
-                        <Stack direction="column" spacing={2} component="form" sx={{ p: 4 }}>
-                            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                                {(props) => (
-                                    <Form noValidate>
-                                        <Field as={TextField} name='name' label='שם' fullWidth
-                                            error={props.errors.name && props.touched.name}
-                                            helperText={<ErrorMessage name='name' />} required />
-
-                                        <Field as={TextField} name='email' label='מייל' fullWidth
-                                            error={props.errors.email && props.touched.email}
-                                            helperText={<ErrorMessage name='email' />} required />
-
-                                        <Field as={TextField} name="phoneNumber" label='מספר טלפון' fullWidth
-                                            error={props.errors.phoneNumber && props.touched.phoneNumber}
-                                            helperText={<ErrorMessage name='phoneNumber' />} required />
-
-                                        <Field as={TextField} name='password' label='סיסמא' type='password' fullWidth
-                                            error={props.errors.password && props.touched.password}
-                                            helperText={<ErrorMessage name='password' />} required />
-
-                                        <Field as={TextField} name='confirmPassword' label='אימות סיסמא' type='password' fullWidth
-                                            error={props.errors.confirmPassword && props.touched.confirmPassword}
-                                            helperText={<ErrorMessage name='confirmPassword' />} required />
-
-                                        <Button variant="contained" color="primary" type="submit" fullWidth>הרשמה </Button>
-
-                                    </Form>
-                                )}
-                            </Formik>
-                        </Stack>
-                    </DialogContent >
-                </Paper>
-            </Grid>
-        </Dialog >
+            <DialogTitle variant="contained" align="center">הרשמה</DialogTitle>
+            <IconButton onClick={() => {
+                setOpen(false);
+            }} sx={{ position: "absolute", top: 6, right: 6 }}>
+                <CloseIcon />
+            </IconButton>
+            <DialogContent>
+                <Stack direction="column" spacing={2} component="form" onSubmit={handleSubmit} sx={{ p: 4 }}>
+                    <TextField
+                        label="שם"
+                        variant="outlined"
+                        fullWidth
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <TextField
+                        label="מייל"
+                        variant="outlined"
+                        fullWidth
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField
+                        label="טלפון"
+                        variant="outlined"
+                        fullWidth
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                    <TextField
+                        label="סיסמא"
+                        variant="outlined"
+                        fullWidth
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <Button variant="contained" color="primary" type="submit" fullWidth>התחברות </Button>
+                </Stack>
+            </DialogContent>
+        </Dialog>
     )
 }
-
-export default RegistrationForm;
+export default LoginForm;
