@@ -1,6 +1,8 @@
 import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Stack, LinearProgress } from "@mui/material";
 import CartItem from "./CartItem";
+import useGet from "../../api/hooks/get";
+
 
 const data = [
     { image: "https://cdn.pixabay.com/photo/2022/06/20/07/32/dirt-road-7273240_960_720.jpg", quantity: 3, name: "מגורים לפי מגע", price: 100, sku: "123456789" },
@@ -21,6 +23,21 @@ const data = [
 ]
 
 function Cart() {
+    
+    const { getData, data, loading, error } = useGet("cart");
+
+    if (loading) {
+        return <Stack alignItems="center" justifyContent="center" sx={{ width: 1, height: "50vh" }}>
+            <Box sx={{ width: '100%' }}>
+                <LinearProgress />
+            </Box>
+        </Stack>
+    }
+
+    if (error) {
+        return <div>Error</div>;
+    }
+
     return (
         <Grid container spacing={4} columnSpacing={6} sx={{ py: 2 }}>
             <Grid item xs={12}>

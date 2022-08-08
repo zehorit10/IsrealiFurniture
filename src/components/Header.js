@@ -15,15 +15,16 @@ const menuList = [
     { title: "אודות", path: "/about" },
     { title: "קטלוג", path: "/catalog" },
     { title: "צור קשר", path: "/contact" },
-    { title: "מוצר חדש", path: "/newProduct", isAuth: true }, //manageer && worker
+    { title: "מוצר חדש", path: "/newProduct", isEmployee: true }, //manageer && worker
     { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
     { title: "פרופיל", path: "/profile", isAuth: true }, 
     { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
-    { title: "הסטורית הזמנות", path: "/orders", isAuth: true }, //
-    { title: "ניהול משתמשים", path: "/users", isAuth: true }, //manageer edit && worker
+    { title: "הסטורית הזמנות", path: "/orders", isAuth: true }, 
+    { title: "ניהול משתמשים", path: "/users", isEmployee: true }, //manageer edit && worker
     { title: "פרטי מוצר", path: "/productDetails" },
-    { title: "מלאי מחסן", path: "/stackProduct", isAuth: true }, //manageer && worker
-    { title: "ניהול הזמנות", path: "/managementOrders", isAuth: true }, //manageer && worker
+    { title: "מלאי מחסן", path: "/stackProduct", isEmployee: true }, //manageer && worker
+    { title: "ניהול הזמנות", path: "/managementOrders", isEmployee: true }, //manageer && worker
+    { title: "צאט", path: "/chat", isAuth: true }
 
 
 ]
@@ -33,7 +34,7 @@ const menuList = [
 function Header() {
 
     let navigate = useNavigate();
-    const { cartTotal, isAuth } = React.useContext(Context);
+    const { cartTotal, isAuth, isEmployee, isAdmin } = React.useContext(Context);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -73,12 +74,18 @@ function Header() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Button variant="contained" color="secondary" onClick={() => setOpenLogin(true)}>
+                                {!isAuth && <Button variant="contained" color="secondary" onClick={() => setOpenLogin(true)}>
                                     התחברות
-                                </Button>
-                                <Button variant="contained" color="secondary" onClick={() => setOpenSingin(true)}>
+                                </Button>}
+                                {!isAuth && <Button variant="contained" color="secondary" onClick={() => setOpenSingin(true)}>
                                     הרשמה
-                                </Button>
+                                </Button>}
+                                {isAuth && <Button variant="contained" color="secondary" onClick={() => {
+                                    localStorage.clear();
+                                    window.location.replace("/");
+                                }}>
+                                    התנתקות
+                                </Button>}
                             </Stack>
                         </Grid>
                         <Grid item xs={4} >
@@ -126,6 +133,7 @@ function Header() {
                                 )
                             } else {
                                 if (item.isAuth && !isAuth) return null;
+                                if (item.isEmployee && !isEmployee ) return null;
                                 return (
                                     <Tab key={index} label={item.title} value={item.path} />
                                 )

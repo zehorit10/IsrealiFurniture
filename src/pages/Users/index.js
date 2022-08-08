@@ -2,16 +2,15 @@ import React from "react";
 import useGet from "../../api/hooks/get";
 import User from "./User";
 import { Stack, Box, LinearProgress, Grid, Typography, TableContainer, TableCell, TableRow, Table, TableHead, TableBody, Button, IconButton } from "@mui/material";
-import { useParams } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Context from "../../context";
+import EditIcon from '@mui/icons-material/Edit';
+
 
 
 function Users() {
-    const { isAuth } = React.useContext(Context);
-    // const { category } = useParams();
+    // const { isAdmin } = React.useContext(Context);
     const { getData, data, loading, error } = useGet("users");
-    // console.log(data);
     const [open, setOpen] = React.useState(false);
 
     if (loading) {
@@ -45,13 +44,12 @@ function Users() {
                                         <TableCell>מייל</TableCell>
                                         <TableCell>טלפון</TableCell>
                                         <TableCell>סוג משתמש</TableCell>
-                                        <TableCell>
-                                        </TableCell>
+                                        <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {data.map((user, index) => (
-                                        <TableRow key={user.name}>
+                                        <TableRow key={user.index}>
                                             <TableCell>{user.name} </TableCell>
                                             <TableCell>{user.email}</TableCell>
                                             <TableCell>{user.phone}</TableCell>
@@ -59,6 +57,9 @@ function Users() {
                                             <TableCell>
                                                 <IconButton aria-label="delete">
                                                     <DeleteIcon />
+                                                </IconButton>
+                                                <IconButton aria-label="edit">
+                                                    <EditIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
@@ -70,9 +71,8 @@ function Users() {
                 </Grid>
 
                 <Grid item xs={2}>
-                    {isAuth && <Button variant="contained" onClick={() => setOpen(true)}>
-                        הוספת משתמש
-                    </Button>}
+                    {/* {isAdmin && <Button variant="contained" onClick={() => setOpen(true)}>הוספת משתמש</Button>} */}
+                    <Button variant="contained" onClick={() => setOpen(true)}>הוספת משתמש</Button>
                 </Grid>
             </Grid>
         </>

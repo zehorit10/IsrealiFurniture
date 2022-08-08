@@ -2,30 +2,44 @@ import React from "react";
 
 import { Dialog, DialogTitle, DialogContent, IconButton, Box, Button, TextField, Stack } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { Login } from "@mui/icons-material";
-
-import  Context  from "../context";
-import  useHttp  from "../api/hooks/http";
+import Context from "../context";
+import useHttp from "../api/hooks/http";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm({ open, setOpen }) {
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const {setIsAuth} = React.useContext(Context);
+    const { setIsAuth, setIsEmployee, setIsAdmin } = React.useContext(Context);
 
     const { getData, data, loading, error } = useHttp("login");
     console.log(data);
-    
+
+    const notify = () => {
+        if (error || (data && !data.login)) {
+            toast.error("ההתחברות נכשלה");
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        getData({ email, password }); 
+        getData({ email, password });
+        notify();
     }
 
     React.useEffect(() => {
         if (data && !error && !loading) {
             localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.role);
             setIsAuth(true);
+            if( data.role === "employee") {
+                setIsEmployee(true);
+              } else if( data.role === "admin") {
+                setIsEmployee(true);
+                setIsAdmin(true);
+              }
             setOpen(false);
         }
     }, [data]);
@@ -40,6 +54,17 @@ function LoginForm({ open, setOpen }) {
             </IconButton>
             <DialogContent>
                 <Stack direction="column" spacing={2} component="form" onSubmit={handleSubmit} sx={{ p: 4 }}>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={4000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
                     <TextField
                         label="מייל"
                         variant="outlined"

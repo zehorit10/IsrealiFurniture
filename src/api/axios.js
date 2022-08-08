@@ -6,13 +6,13 @@ export default {
     get(endpoint, data) {
         return ajax(endpoint, 'GET', data)
     },
-    post(endpoint, data) {
+    post(endpoint, data = {}) {
         return ajax(endpoint, 'POST', data)
     },
-    put(endpoint, data) {
+    put(endpoint, data = {}) {
         return ajax(endpoint, 'PUT', data)
     },
-    delete(endpoint, data) {
+    delete(endpoint, data = {}) {
         return ajax(endpoint, 'DELETE', data)
     }
 }

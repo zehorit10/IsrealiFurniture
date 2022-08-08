@@ -77,6 +77,7 @@ function ProductForm({ inputs, handleChange, loading }) {
             value={inputs["description"] || ""}
             onChange={handleChange}
             fullWidth
+            multiline rows={5}
          />
          {isLoading && <LinearProgress />}
          <Button type="submit" variant="contained" disabled={isLoading}>

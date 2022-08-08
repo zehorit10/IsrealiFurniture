@@ -2,23 +2,30 @@ import React from "react";
 import { Grid, Typography, IconButton, Collapse, TextField } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
-
-const data = {
-    name: "אלכסנדר אברהם",
-    email: "vdf@dfvfg",
-    phone: "054-1234567",
-}
+import useGet from "../../api/hooks/get";
+import usePut from "../../api/hooks/put";
 
 function Profile() {
 
+    const getProfile = useGet("users/profile");
+
     const [nameOpen, setNameOpen] = React.useState(false);
-    const [name, setName] = React.useState(data.name);
+    const [name, setName] = React.useState("");
     const [emailOpen, setEmailOpen] = React.useState(false);
-    const [email, setEmail] = React.useState(data.email);
+    const [email, setEmail] = React.useState("");
     const [phoneOpen, setPhoneOpen] = React.useState(false);
-    const [phone, setPhone] = React.useState(data.phone);
+    const [phone, setPhone] = React.useState("");
 
+    React.useEffect(() => {
+        if (getProfile.data !== null) {
+            setName(getProfile.data.name);
+            setEmail(getProfile.data.email);
+            setPhone(getProfile.data.phone);
+        }
+    }, [getProfile.data]);
 
+    const updateProfile = usePut("users/profile", { name, email, phone });
+    console.log(updateProfile.data);
 
     return (
         <Grid container spacing={4} columnSpacing={6} sx={{ py: 2 }}>
@@ -46,7 +53,11 @@ function Profile() {
                                 onChange={(e) => setName(e.target.value)}
                                 size="small"
                             />
-                            <IconButton onClick={() => setNameOpen(false)}>
+                            <IconButton onClick={() => {
+                                updateProfile.getData();
+                                getProfile.getData();
+                                setNameOpen(false)
+                            }}>
                                 <CheckIcon />
                             </IconButton>
                         </Collapse>
@@ -72,7 +83,11 @@ function Profile() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 size="small"
                             />
-                            <IconButton onClick={() => setEmailOpen(false)}>
+                            <IconButton onClick={() => {
+                                updateProfile.getData();
+                                getProfile.getData();
+                                setEmailOpen(false)
+                            }}>
                                 <CheckIcon />
                             </IconButton>
                         </Collapse>
@@ -98,7 +113,11 @@ function Profile() {
                                 onChange={(e) => setPhone(e.target.value)}
                                 size="small"
                             />
-                            <IconButton onClick={() => setPhoneOpen(false)}>
+                            <IconButton onClick={() => {
+                                updateProfile.getData();
+                                getProfile.getData();
+                                setPhoneOpen(false)
+                            }}>
                                 <CheckIcon />
                             </IconButton>
                         </Collapse>
