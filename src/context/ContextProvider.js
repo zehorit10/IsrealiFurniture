@@ -1,15 +1,19 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
 import {  Box,  Stack, LinearProgress } from "@mui/material";
 import Context from ".";
 import useGet from "../api/hooks/get";
 
 function ContextProvider({ children }) {
 
+  let navigate = useNavigate();
+
   const [isAuth, setIsAuth] = React.useState(false);
   const [isEmployee, setIsEmployee] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
 
   const {getData, data, loading, error } = useGet("auth");
+ 
 
   React.useEffect(() => {
     if(!error && data && data.isAuth) {
@@ -20,9 +24,12 @@ function ContextProvider({ children }) {
         setIsEmployee(true);
         setIsAdmin(true);
       }
+    }else if (error){
+      navigate("/");
     } 
   } , [data]);
   
+  const [cartSum, setCartSum] = React.useState(0);
   const [cart, setCart] = React.useState([]);
   const [cartTotal, setCartTotal] = React.useState(0);
   const [cartQuantity, setCartQuantity] = React.useState(0);
@@ -68,7 +75,9 @@ function ContextProvider({ children }) {
       cartQuantity,
       addToCart,
       removeFromCart,
-      clearCart
+      clearCart,
+      cartSum,
+      setCartSum
     }}>
       {children}
     </Context.Provider>

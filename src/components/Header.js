@@ -10,24 +10,7 @@ import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 
 
-const menuList = [
-    { title: "דף הבית", path: "/" },
-    { title: "אודות", path: "/about" },
-    { title: "קטלוג", path: "/catalog" },
-    { title: "צור קשר", path: "/contact" },
-    { title: "מוצר חדש", path: "/newProduct", isEmployee: true }, //manageer && worker
-    { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
-    { title: "פרופיל", path: "/profile", isAuth: true }, 
-    { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
-    { title: "הסטורית הזמנות", path: "/orders", isAuth: true }, 
-    { title: "ניהול משתמשים", path: "/users", isEmployee: true }, //manageer edit && worker
-    { title: "פרטי מוצר", path: "/productDetails" },
-    { title: "מלאי מחסן", path: "/stackProduct", isEmployee: true }, //manageer && worker
-    { title: "ניהול הזמנות", path: "/managementOrders", isEmployee: true }, //manageer && worker
-    { title: "צאט", path: "/chat", isAuth: true }
 
-
-]
 
 
 
@@ -45,6 +28,21 @@ function Header() {
         setAnchorEl(null);
     };
 
+    const menuList = [
+        { title: "דף הבית", path: "/" },
+        { title: "פרופיל", path: "/profile", isAuth: true }, 
+        { title: "אודות", path: "/about" },
+        { title: "צור קשר", path: "/contact" },
+        { title: "קטלוג", path: "/catalog" },
+        // { title: "מוצר חדש", path: "/newProduct", isEmployee: true }, //manageer && worker
+        { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
+        // { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
+        { title: `${(isAdmin || isEmployee) ? "ניהול" : "היסטורית"} הזמנות`, path: "/orders", isAuth: true }, 
+        { title: "ניהול משתמשים", path: "/users", isEmployee: true }, //manageer edit && worker
+        // { title: "פרטי מוצר", path: "/productDetails" },
+        { title: "מלאי מחסן", path: "/stackProduct", isEmployee: true }, //manageer && worker
+        { title: "צאט", path: "/chat", isAuth: true }
+    ]
 
     const [value, setValue] = React.useState("/");
     const handleChange = (event, newValue) => {
@@ -92,9 +90,9 @@ function Header() {
                             <Typography align="center" color="secondary" variant="h3">
                                 רהיט ישראלי
                             </Typography>
-                            <Typography>
+                            {/* <Typography>
                                 {cartTotal}
-                            </Typography>
+                            </Typography> */}
                         </Grid>
                         <Grid item xs={2} >
                             <Stack
@@ -103,7 +101,7 @@ function Header() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <IconButton>
+                                <IconButton >
                                     <InstagramIcon color="secondary" />
                                 </IconButton>
                                 <IconButton>

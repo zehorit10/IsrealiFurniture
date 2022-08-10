@@ -25,7 +25,6 @@ function Profile() {
     }, [getProfile.data]);
 
     const updateProfile = usePut("users/profile", { name, email, phone });
-    console.log(updateProfile.data);
 
     return (
         <Grid container spacing={4} columnSpacing={6} sx={{ py: 2 }}>
@@ -49,7 +48,7 @@ function Profile() {
                         <Collapse in={nameOpen} orientation="horizontal">
                             <TextField
                                 label="שם"
-                                value={name}
+                                value={name || ""}
                                 onChange={(e) => setName(e.target.value)}
                                 size="small"
                             />
@@ -79,7 +78,7 @@ function Profile() {
                         <Collapse in={emailOpen} orientation="horizontal">
                             <TextField
                                 label="מייל"
-                                value={email}
+                                value={email || ""}
                                 onChange={(e) => setEmail(e.target.value)}
                                 size="small"
                             />
@@ -109,7 +108,7 @@ function Profile() {
                         <Collapse in={phoneOpen} orientation="horizontal">
                             <TextField
                                 label="טלפון"
-                                value={phone}
+                                value={phone || ""}
                                 onChange={(e) => setPhone(e.target.value)}
                                 size="small"
                             />

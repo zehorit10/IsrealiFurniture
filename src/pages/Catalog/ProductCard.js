@@ -1,18 +1,23 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-import { IconButton } from '@mui/material';
 import Context from '../../context';
+import ProductDetails from './ProductDetails';
+import {useNavigate} from 'react-router-dom';
+
+
+import { IconButton, Alert,  Link, Typography, Button, CardMedia, CardContent, CardActions, Card } from "@mui/material";
+import usePost from "../../api/hooks/post";
 
 export default function ProductCard({ product }) {
-  const { addToCart, removeFromCart } = React.useContext(Context);
+
+  let navigate = useNavigate();
+
+  
+  const { addToCart, removeFromCart, isAuth } = React.useContext(Context);
   const [quantity, setQuantity] = React.useState(1);
+
+  const addItem = usePost("orders/addToCart", { product: product._id, quantity });
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -34,10 +39,14 @@ export default function ProductCard({ product }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => {
-          setQuantity(1);
-          addToCart({ ...product, quantity: quantity })
-        }}>הוסף לסל</Button>
+        <Button size="small"
+          disabled={isAuth ? false : true}
+          onClick={() => {
+            // <Alert onClose={() => {}}>המוצר נוסף לסל בהצלחה!</Alert>
+            setQuantity(1);
+            addItem.getData();
+            // addToCart({ ...product, quantity: quantity })
+          }}>הוסף לסל</Button>
         <IconButton onClick={() => setQuantity(quantity + 1)}>
           <AddIcon fontSize='small' />
         </IconButton>
@@ -46,8 +55,9 @@ export default function ProductCard({ product }) {
           <RemoveIcon fontSize='small' />
         </IconButton>
       </CardActions>
+
       <CardActions>
-        <Button variant='contained' fullWidth>פרטים נוספים</Button>
+        <Button variant='contained' fullWidth onClick={() => navigate("/ProductDetails/" + product._id )}>פרטים נוספים</Button>
       </CardActions>
     </Card>
   );

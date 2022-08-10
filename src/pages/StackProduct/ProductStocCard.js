@@ -20,7 +20,7 @@ export default function ProductStocCard({ product }) {
   const [stock, setStock] = React.useState(product.stock);
 
   const {getData, data, loading, error} = usePut("products/" + product._id, { stock });
-  console.log(data);
+
   React.useEffect(() => {
     if (data !== null) {
       setStock(data.stock);
@@ -28,7 +28,7 @@ export default function ProductStocCard({ product }) {
   }, [data]);
 
   return (
-    <Card sx={{ maxWidth: 400, height:450 }}>
+    <Card sx={{ maxWidth: 400}}>
       <CardMedia
         component="img"
         height="140"
@@ -55,7 +55,7 @@ export default function ProductStocCard({ product }) {
         </Typography>
           </Grid>
           <Grid item xs={8}>
-        <Collapse in={stockOpen} orientation="horizontal">
+        <Collapse in={stockOpen}>
           <TextField
             label="מלאי"
             value={stock}
@@ -73,16 +73,6 @@ export default function ProductStocCard({ product }) {
         </Collapse>
           </Grid>
         </Grid>
-        {/* <Typography gutterBottom variant="subtitle1">
-          מלאי:
-        </Typography>
-        <IconButton onClick={() => setStock(stock + 1)}>
-          <AddIcon fontSize='small' />
-        </IconButton>
-        <Typography variant='caption'> {stock}</Typography>
-        <IconButton onClick={() => { if (stock > 1) setStock(stock - 1) }}>
-          <RemoveIcon fontSize='small' />
-        </IconButton> */}
       </CardActions>
 
     </Card>

@@ -11,10 +11,9 @@ import Profile from "./pages/Profile";
 import Order from "./pages/Order";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
-import ProductDetails from "./pages/ProductDetails";
+import ProductDetails from "./pages/Catalog/ProductDetails";
 import Contact from "./pages/Contact";
 import StackProduct from "./pages/StackProduct";
-import ManagementOrders from "./pages/ManagementOrders";
 import Chat from "./pages/Chat";
 
 import Context from "./context";
@@ -37,9 +36,8 @@ function Routers() {
                 {isAuth && <Route path="/order" element={<Order />} />}
                 {isAuth && <Route path="/orders" element={<Orders />} />}
                 <Route path="/users" element={<Users />} />
-                <Route path="/productDetails" element={<ProductDetails />} />
+                <Route path="/productDetails/:id" element={<ProductDetails />} />
                 {(isEmployee || isAdmin) && <Route path="/stackProduct" element={<StackProduct />} />}
-                {(isEmployee || isAdmin) && <Route path="/managementOrders" element={<ManagementOrders />} />}
                 {<Route path="/chat" element={<Chat />} />}
             </Route>
         </Routes>

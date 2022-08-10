@@ -2,15 +2,19 @@ import React from "react";
 import axios from "../axios";
 
 // react hook to delete data from backend
-export default function useDelete(endpoint, body = null){
+export default function useDelete(endpoint) {
         
         const [data, setData] = React.useState(null);
-        const [loading, setLoading] = React.useState(true);
+        const [loading, setLoading] = React.useState(false);
         const [error, setError] = React.useState(false);
         
-        const getData = async () => {
+        const getData = async (id) => {
+            setData(null);
+            setLoading(true);
+            setError(false);
+
             try {
-                const res = await axios.delete(endpoint, body);
+                const res = await axios.delete(endpoint +id, {});
                 setData(res);
                 setLoading(false);
             } catch (err) {
@@ -19,8 +23,5 @@ export default function useDelete(endpoint, body = null){
             }  
         }
 
-        React.useEffect(() => {
-                getData();
-            }, [endpoint]);
-        return { data, loading, error };
+        return { getData, data, loading, error };
     }

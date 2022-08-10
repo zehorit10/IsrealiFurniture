@@ -4,19 +4,12 @@ import { Dialog, DialogTitle, DialogContent, IconButton, Alert, Button, TextFiel
 import CloseIcon from '@mui/icons-material/Close';
 import Context from "../context";
 import useHttp from "../api/hooks/http";
+import {myEncrypt} from "../func";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm({ open, setOpen }) {
 
-    const notify = () => {
-        if (data && data.register && !error && !loading) {
-            toast.success("ההרשמה בוצעה בהצלחה");
-        }
-        else if (error || (data && !data.registe)) {
-            toast.error("ההרשמה נכשלה");
-        }
-    }
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [phone, setPhone] = React.useState("");
@@ -25,21 +18,29 @@ function LoginForm({ open, setOpen }) {
     const { setIsAuth } = React.useContext(Context);
 
     const { getData, data, loading, error } = useHttp("register");
-    console.log(data);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        getData({ name, email, phone, password });
-        notify();
+        getData({ name, email, phone, password: await myEncrypt(password) });
     }
 
     React.useEffect(() => {
-        if (error || (data && !data.registe)) {
+        if (data && data.register) {
+            toast.success("ההרשמה בוצעה בהצלחה");
             setTimeout(() => {
                 setOpen(false);
-            }, 2000);
+            }, 2500);
+            setName("");
+            setEmail("");
+            setPhone("");
+            setPassword("");
         }
     }, [data]);
+    React.useEffect(() => {
+        if (error) {
+            toast.error("ההרשמה נכשלה");
+        }
+    }, [error]);
 
     return (
         <Dialog open={open}>
@@ -67,6 +68,7 @@ function LoginForm({ open, setOpen }) {
                     <TextField
                         label="שם"
                         variant="outlined"
+                        type="username"
                         fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -74,6 +76,7 @@ function LoginForm({ open, setOpen }) {
                     <TextField
                         label="מייל"
                         variant="outlined"
+                        type="email"
                         fullWidth
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -81,6 +84,7 @@ function LoginForm({ open, setOpen }) {
                     <TextField
                         label="טלפון"
                         variant="outlined"
+                        type="phone"
                         fullWidth
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -88,6 +92,7 @@ function LoginForm({ open, setOpen }) {
                     <TextField
                         label="סיסמא"
                         variant="outlined"
+                        type="password"
                         fullWidth
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
