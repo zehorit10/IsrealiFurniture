@@ -1,10 +1,35 @@
 import React from "react";
+import {useNavigate} from "react-router-dom";
+import {  Box,  Stack, LinearProgress } from "@mui/material";
 import Context from ".";
+import useGet from "../api/hooks/get";
 
 function ContextProvider({ children }) {
 
+  let navigate = useNavigate();
+
   const [isAuth, setIsAuth] = React.useState(false);
+  const [isEmployee, setIsEmployee] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  const {getData, data, loading, error } = useGet("auth");
+ 
+
+  React.useEffect(() => {
+    if(!error && data && data.isAuth) {
+      setIsAuth(true);
+      if( data.role === "employee") {
+        setIsEmployee(true);
+      } else if( data.role === "admin") {
+        setIsEmployee(true);
+        setIsAdmin(true);
+      }
+    }else if (error){
+      navigate("/");
+    } 
+  } , [data]);
   
+  const [cartSum, setCartSum] = React.useState(0);
   const [cart, setCart] = React.useState([]);
   const [cartTotal, setCartTotal] = React.useState(0);
   const [cartQuantity, setCartQuantity] = React.useState(0);
@@ -29,16 +54,30 @@ function ContextProvider({ children }) {
     setCartQuantity(0);
   }
 
+  if(loading) {
+    return <Stack alignItems="center" justifyContent="center" sx={{ width: 1, height: "100vh" }}>
+      <Box sx={{ width: 0.5 }}>
+        <LinearProgress />
+      </Box>
+    </Stack>
+  }
+
   return (
     <Context.Provider value={{
       isAuth,
       setIsAuth,
+      isEmployee,
+      setIsEmployee,
+      isAdmin,
+      setIsAdmin,
       cart,
       cartTotal,
       cartQuantity,
       addToCart,
       removeFromCart,
-      clearCart
+      clearCart,
+      cartSum,
+      setCartSum
     }}>
       {children}
     </Context.Provider>

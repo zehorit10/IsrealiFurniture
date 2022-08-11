@@ -9,15 +9,26 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { IconButton } from '@mui/material';
 import Context from '../../context';
-import { Collapse, TextField } from "@mui/material";
+import { Collapse, TextField, Grid } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
+import usePut from "../../api/hooks/put";
 
 export default function ProductStocCard({ product }) {
+
   const [stockOpen, setStockOpen] = React.useState(false);
   const [stock, setStock] = React.useState(product.stock);
+
+  const {getData, data, loading, error} = usePut("products/" + product._id, { stock });
+
+  React.useEffect(() => {
+    if (data !== null) {
+      setStock(data.stock);
+    }
+  }, [data]);
+
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: 400}}>
       <CardMedia
         component="img"
         height="140"
@@ -33,6 +44,8 @@ export default function ProductStocCard({ product }) {
         </Typography>
       </CardContent>
       <CardActions>
+        <Grid container spacing={4} alignItems="center" >
+          <Grid item xs={4}>
         <Typography variant="caption">מלאי:  </Typography>
         <Typography variant="body1">
           {stock}
@@ -40,29 +53,28 @@ export default function ProductStocCard({ product }) {
             <EditIcon />
           </IconButton>
         </Typography>
-        <Collapse in={stockOpen} orientation="horizontal">
+          </Grid>
+          <Grid item xs={8}>
+        <Collapse in={stockOpen}>
           <TextField
             label="מלאי"
             value={stock}
             onChange={(e) => setStock(e.target.value)}
             size="small"
             type="number"
+            sx={{ width: 0.5 }}
           />
-          <IconButton onClick={() => setStockOpen(false)}>
+          <IconButton onClick={() => {
+            getData();
+            setStockOpen(false)
+            }}>
             <CheckIcon />
           </IconButton>
         </Collapse>
-        {/* <Typography gutterBottom variant="subtitle1">
-          מלאי:
-        </Typography>
-        <IconButton onClick={() => setStock(stock + 1)}>
-          <AddIcon fontSize='small' />
-        </IconButton>
-        <Typography variant='caption'> {stock}</Typography>
-        <IconButton onClick={() => { if (stock > 1) setStock(stock - 1) }}>
-          <RemoveIcon fontSize='small' />
-        </IconButton> */}
+          </Grid>
+        </Grid>
       </CardActions>
+
     </Card>
   );
 }

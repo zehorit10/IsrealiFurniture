@@ -9,6 +9,8 @@ export default function useHttp(endpoint, method = "POST") {
     const [error, setError] = React.useState(false);
 
     const getData = async (body = {}) => {
+        setData(null);
+        setError(false);
         setLoading(true);
         try {
             let res;

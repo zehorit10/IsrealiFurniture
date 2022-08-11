@@ -10,30 +10,14 @@ import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 
 
-const menuList = [
-    { title: "דף הבית", path: "/" },
-    { title: "אודות", path: "/about" },
-    { title: "קטלוג", path: "/catalog" },
-    { title: "צור קשר", path: "/contact" },
-    { title: "מוצר חדש", path: "/newProduct", isAuth: true }, //manageer && worker
-    { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
-    { title: "פרופיל", path: "/profile", isAuth: true }, 
-    { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
-    { title: "הסטורית הזמנות", path: "/orders", isAuth: true }, //
-    { title: "ניהול משתמשים", path: "/users", isAuth: true }, //manageer edit && worker
-    { title: "פרטי מוצר", path: "/productDetails" },
-    { title: "מלאי מחסן", path: "/stackProduct", isAuth: true }, //manageer && worker
-    { title: "ניהול הזמנות", path: "/managementOrders", isAuth: true }, //manageer && worker
 
-
-]
 
 
 
 function Header() {
 
     let navigate = useNavigate();
-    const { cartTotal, isAuth } = React.useContext(Context);
+    const { cartTotal, isAuth, isEmployee, isAdmin } = React.useContext(Context);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -44,6 +28,21 @@ function Header() {
         setAnchorEl(null);
     };
 
+    const menuList = [
+        { title: "דף הבית", path: "/" },
+        { title: "פרופיל", path: "/profile", isAuth: true }, 
+        { title: "אודות", path: "/about" },
+        { title: "צור קשר", path: "/contact" },
+        { title: "קטלוג", path: "/catalog" },
+        // { title: "מוצר חדש", path: "/newProduct", isEmployee: true }, //manageer && worker
+        { title: "סל קניות", path: "/cart", isAuth: true }, //castomer
+        // { title: "השלמת הזמנה", path: "/order", isAuth: true }, //castomer
+        { title: `${(isAdmin || isEmployee) ? "ניהול" : "היסטורית"} הזמנות`, path: "/orders", isAuth: true }, 
+        { title: "ניהול משתמשים", path: "/users", isEmployee: true }, //manageer edit && worker
+        // { title: "פרטי מוצר", path: "/productDetails" },
+        { title: "מלאי מחסן", path: "/stackProduct", isEmployee: true }, //manageer && worker
+        { title: "צאט", path: "/chat", isAuth: true }
+    ]
 
     const [value, setValue] = React.useState("/");
     const handleChange = (event, newValue) => {
@@ -73,21 +72,27 @@ function Header() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Button variant="contained" color="secondary" onClick={() => setOpenLogin(true)}>
+                                {!isAuth && <Button variant="contained" color="secondary" onClick={() => setOpenLogin(true)}>
                                     התחברות
-                                </Button>
-                                <Button variant="contained" color="secondary" onClick={() => setOpenSingin(true)}>
+                                </Button>}
+                                {!isAuth && <Button variant="contained" color="secondary" onClick={() => setOpenSingin(true)}>
                                     הרשמה
-                                </Button>
+                                </Button>}
+                                {isAuth && <Button variant="contained" color="secondary" onClick={() => {
+                                    localStorage.clear();
+                                    window.location.replace("/");
+                                }}>
+                                    התנתקות
+                                </Button>}
                             </Stack>
                         </Grid>
                         <Grid item xs={4} >
                             <Typography align="center" color="secondary" variant="h3">
                                 רהיט ישראלי
                             </Typography>
-                            <Typography>
+                            {/* <Typography>
                                 {cartTotal}
-                            </Typography>
+                            </Typography> */}
                         </Grid>
                         <Grid item xs={2} >
                             <Stack
@@ -96,7 +101,7 @@ function Header() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <IconButton>
+                                <IconButton >
                                     <InstagramIcon color="secondary" />
                                 </IconButton>
                                 <IconButton>
@@ -126,6 +131,7 @@ function Header() {
                                 )
                             } else {
                                 if (item.isAuth && !isAuth) return null;
+                                if (item.isEmployee && !isEmployee ) return null;
                                 return (
                                     <Tab key={index} label={item.title} value={item.path} />
                                 )

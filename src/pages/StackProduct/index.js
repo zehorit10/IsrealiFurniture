@@ -11,7 +11,6 @@ function StackProduct() {
     const { category } = useParams();
     const {getData, data, loading, error } = useGet("products/catalog/" + (category || "0"));
 
-    console.log(data);
 
     if (loading) {
         return <Stack alignItems="center" justifyContent="center" sx={{ width: 1, height: "50vh" }}>

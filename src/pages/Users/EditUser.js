@@ -1,54 +1,58 @@
 import React from "react";
-import { Dialog,Box,LinearProgress, DialogTitle, DialogContent, IconButton, Alert, Button, Stack, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Dialog, Box, LinearProgress, Collapse, DialogTitle, DialogContent, IconButton, Alert, Button, Stack, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import Context from "../../context";
-import useHttp from "../../api/hooks/http";
+import usePut from "../../api/hooks/put";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import roles from "../../constant/roles";
-import {myEncrypt} from "../../func";
+import Edit from "@mui/icons-material/Edit";
 
 
-function User({ open, setOpen }) {
+function EditUser({ openEdit, setOpenEdit, user }) {
+
+    const { isAdmin } = React.useContext(Context);
+
 
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [phone, setPhone] = React.useState("");
-    const [password, setPassword] = React.useState("");
     const [role, setRole] = React.useState("");
-    const { setIsAuth } = React.useContext(Context);
 
-    const { getData, data, loading, error } = useHttp("register");
+    const { getData, data, loading, error } = usePut("users/", { _id:user._id, name, email, phone, role });
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        getData({ name, email, phone, password: await myEncrypt(password), role });
+        getData();
     }
 
     React.useEffect(() => {
-        if (data && data.register) {
-            toast.success("ההרשמה בוצעה בהצלחה");
+        setName(user.name);
+        setEmail(user.email);
+        setPhone(user.phone);
+        setRole(user.role);
+    } , [user]);
+
+    React.useEffect(() => {
+        if (data && !error) {
+            toast.success("השינויים נשמרו בהצלחה");
             setTimeout(() => {
-                setOpen(false);
-            }, 4000);
-            setName("");
-            setEmail("");
-            setPhone("");
-            setPassword("");
-            setRole("");
+                setOpenEdit(false);
+            }, 1000);
         }
     }, [data]);
+
     React.useEffect(() => {
         if (error) {
-            toast.error("ההרשמה נכשלה");
+            toast.error("העדכון נכשל");
         }
     }, [error]);
 
     return (
-        <Dialog open={open}>
+        <Dialog open={openEdit}>
             <DialogTitle variant="contained" align="center">משתמש</DialogTitle>
             <IconButton onClick={() => {
-                setOpen(false);
+                setOpenEdit(false);
             }} sx={{ position: "absolute", top: 6, right: 6 }}>
                 <CloseIcon />
             </IconButton>
@@ -66,37 +70,30 @@ function User({ open, setOpen }) {
                         pauseOnHover
                     />
                     <TextField
-                        label="שם"
-                        variant="outlined"
-                        type="username"
-                        fullWidth
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                            label="שם"
+                            type="username"
+                            variant="outlined"
+                            fullWidth
+                            value={name || ''}
+                            onChange={(e) => setName(e.target.value)}
+                        />
                     <TextField
-                        label="מייל"
-                        variant="outlined"
-                        type="email"
-                        fullWidth
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                            label="מייל"
+                            variant="outlined"
+                            type="email"
+                            fullWidth
+                            value={email || ''}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     <TextField
-                        label="טלפון"
-                        variant="outlined"
-                        type="phone"
-                        fullWidth
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
-                    <TextField
-                        label="סיסמא"
-                        variant="outlined"
-                        fullWidth
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <FormControl size="small" fullWidth>
+                            label="טלפון"
+                            variant="outlined"
+                            type="phone"
+                            fullWidth
+                            value={phone || ''}
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
+                    {isAdmin && <FormControl size="small" fullWidth>
                         <InputLabel>סוג משתמש</InputLabel>
                         <Select
                             label="סוג משתמש"
@@ -110,11 +107,11 @@ function User({ open, setOpen }) {
                                 <MenuItem key={i} value={c.value}>{c.label}</MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl>}
                     <Button variant="contained" color="primary" type="submit" fullWidth>שמירת משתמש </Button>
                 </Stack>
             </DialogContent>
         </Dialog>
     )
 }
-export default User;
+export default EditUser;

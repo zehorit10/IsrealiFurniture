@@ -9,6 +9,9 @@ export default function usePut(endpoint, body = null){
         const [error, setError] = React.useState(false);
         
         const getData = async () => {
+            setData(null);
+            setLoading(true);
+            setError(false);
             try {
                 const res = await axios.put(endpoint, body);
                 setData(res);
@@ -19,8 +22,6 @@ export default function usePut(endpoint, body = null){
             }  
         }
 
-        React.useEffect(() => {
-                getData();
-            }, [endpoint]);
-        return { data, loading, error };
+        
+        return { getData, data, loading, error };
     }
